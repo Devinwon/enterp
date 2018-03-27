@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from django.shortcuts import HttpResponse
+# from django.shortcuts import HttpResponse
 
 ######################################
 
@@ -49,6 +49,20 @@ def purchasecategory(request):
 		serializer=OrgSerializer(purcateInfo,many=True)
 		return Response(serializer.data)
 
+
+######################################
+
+class OrgCategorySerializer(serializers.ModelSerializer):
+	class Meta:
+		model=OrgCategory
+		fields='__all__'
+
+@api_view(['GET'])
+def orgcategory(request):
+	if request.method=='GET':
+		orgcateInfo=OrgCategory.objects.order_by('AliasName')
+		serializer=OrgCategorySerializer(orgcateInfo,many=True)
+		return Response(serializer.data)
 
 ######################################
 
@@ -130,14 +144,13 @@ def userprofile(request):
 class FootPrintSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=FootPrint
-		fields='__all__'
-		# fields=('FavoTag',)
+		# fields='__all__'
 
 @api_view(['GET'])		
 def footprint(request):
 	if request.method=='GET':
 		footprintinfo=FootPrint.objects.order_by('-id')
-		serializer=FootPrintSerializer(footprintinfo)
+		serializer=FootPrintSerializer(footprintinfo,many=True)
 		return Response(serializer.data)
 
 

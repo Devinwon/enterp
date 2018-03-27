@@ -86,7 +86,11 @@ DATABASES = {
         # 'PORT': 3306,
         # 'USER': 'root',
         # 'PASSWORD': 'root',
-
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	    # 'HOST':'localhost',
+        # 'NAME': 'Bidding_B',
+        # 'USER':'openpg',
+        # 'PASSWORD':'openpgpwd',
     }
 }
 

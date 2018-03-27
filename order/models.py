@@ -46,10 +46,26 @@ class Org(models.Model):
 '''
 class PurchaseCategory(models.Model):
 	Name=models.CharField(max_length=100)
-	ParentId=models.ForeignKey('self',related_name='parentid')
+	ParentId=models.ForeignKey('self',related_name='parentid',null=True  ,blank=True)
 
 	class Meta:
 		verbose_name='PurchaseCategory'
+		verbose_name_plural=verbose_name
+
+	def __str__(self):
+		return self.Name
+
+
+###############################################
+'''
+发布类别目录
+'''
+class OrgCategory(models.Model):
+	Name=models.CharField(max_length=100)
+	AliasName=models.CharField(max_length=100)
+
+	class Meta:
+		verbose_name='OrgCategory'
 		verbose_name_plural=verbose_name
 
 	def __str__(self):
@@ -133,21 +149,21 @@ class OrgUser(models.Model):
 '''
 class BiddingInfo(models.Model):
 	TagName=models.CharField(max_length=100)
-	Url=models.URLField()
-	Title=models.CharField(max_length=200)
-	LabelTime=models.DateTimeField(auto_now=True)	#标注时间
-	PurchaseDept=models.CharField(max_length=200)	#采购单位
-	OrgCategory=models.CharField(max_length=100)	#采购单位性质
-	PurchseArea=models.ForeignKey(to=Area,related_name='purchsearea')	#采购地区
-	PurchaseCategory=models.ForeignKey(to=PurchaseCategory,related_name='purchasecategory')	#采购目录
-	GetViews=models.IntegerField()									#查看次数
-	PublishTime=models.DateTimeField(auto_now=True)	#发布时间
-	DeadLine=models.DateTimeField(auto_now=False)		#截止时间
-	TimestoFavo=models.IntegerField()
-	LabelByWhom=models.CharField(max_length=100)	#手工标注人
-	BiddingType=models.IntegerField()								#招标类型
-	BiddingStatus=models.IntegerField()					
-	BiddingSubject=models.CharField(max_length=200) #主提
+	Url=models.URLField(null=True)
+	Title=models.CharField(max_length=200,null=True)
+	LabelTime=models.DateTimeField(auto_now=True,null=True)	#标注时间
+	PurchaseDept=models.CharField(max_length=200,null=True)	#采购单位
+	OrgCategory=models.ForeignKey(to=OrgCategory,related_name='orgcategory',null=True)	#采购单位性质
+	PurchseArea=models.ForeignKey(to=Area,related_name='purchsearea',null=True)	#采购地区
+	PurchaseCategory=models.ForeignKey(to=PurchaseCategory,related_name='purchasecategory',null=True)	#采购目录
+	GetViews=models.IntegerField(null=True)									#查看次数
+	PublishTime=models.DateTimeField(auto_now=True,null=True)	#发布时间
+	DeadLine=models.DateTimeField(auto_now=False,null=True)		#截止时间
+	TimestoFavo=models.IntegerField(null=True)
+	LabelByWhom=models.CharField(max_length=100,null=True)	#手工标注人
+	BiddingType=models.IntegerField(null=True)								#招标类型
+	BiddingStatus=models.IntegerField(null=True)					
+	BiddingSubject=models.CharField(max_length=200,null=True) #主体
 
 	class Meta:
 		verbose_name='BiddingInfo'

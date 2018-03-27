@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^api/bidinfo/', biddinginfo),
     url(r'^api/userinfo/', userprofile),
     url(r'^api/footprint/', footprint),
+    url(r'^api/orgcate/', orgcategory),
 ]

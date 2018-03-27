@@ -1,0 +1,12 @@
+- model: order.Area
+  pk: 1
+  fields:
+    name: 北京
+    code: '010'
+    parentId:
+- model: order.Area
+  pk: 11
+  fields:
+    name: 北京城区
+    code: '010010'
+    parentId: 1

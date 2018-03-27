@@ -13,6 +13,13 @@ class AreaAdmin(admin.ModelAdmin):
 	list_display=('Code','Name','ParentId')
 	list_per_page = 20
 	ordering = ('Name',)
+
+
+@admin.register(OrgCategory)
+class OrgCategoryAdmin(admin.ModelAdmin):
+	list_display=('Name','AliasName')
+	list_per_page = 20
+	ordering = ('Name',)
 	
 
 @admin.register(PurchaseCategory)
@@ -57,6 +64,6 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(FootPrint)
 class FootPrintAdmin(admin.ModelAdmin):
-	list_display=('AreaId','BidInfoId','FavoTag','OrgId','PurchaseCateId','UserId')
+	list_display=('BidInfoId','FavoTag','OrgId','PurchaseCateId','UserId')
 	list_per_page = 20
 	ordering =('AreaId',)
