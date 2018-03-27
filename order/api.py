@@ -46,7 +46,7 @@ class PurchaseCategorySerializer(serializers.ModelSerializer):
 def purchasecategory(request):
 	if request.method=='GET':
 		purcateInfo=PurchaseCategory.objects.order_by('-id')
-		serializer=OrgSerializer(purcateInfo,many=True)
+		serializer=PurchaseCategorySerializer(purcateInfo,many=True)
 		return Response(serializer.data)
 
 

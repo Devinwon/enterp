@@ -82,15 +82,16 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         # 'ENGINE': 'django.db.backends.mysql',
         # 'NAME': 'jltxdb',
-        # 'HOST': '127.0.0.1',
         # 'PORT': 3306,
+        # 'HOST': '127.0.0.1',
         # 'USER': 'root',
         # 'PASSWORD': 'root',
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-	    # 'HOST':'localhost',
-        # 'NAME': 'Bidding_B',
-        # 'USER':'openpg',
-        # 'PASSWORD':'openpgpwd',
+     #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+     #    'PORT': 3306,
+	    # 'HOST':'192.168.10.152',
+     #    'NAME': 'Bidding_B',
+     #    'USER':'openpg',
+     #    'PASSWORD':'openpgpwd',
     }
 }
 
