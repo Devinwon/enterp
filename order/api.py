@@ -15,10 +15,35 @@ class AreaSerializer(serializers.ModelSerializer):
 @api_view(['GET'])
 def area(request):
 	if request.method=='GET':
-		areaInfo=Area.objects.order_by('-id')
+		areaInfo=Area.objects.all()
 		serializer=AreaSerializer(areaInfo,many=True)
 		return Response(serializer.data)
 
+@api_view(['GET'])
+def pvnshow(request,prtid=None,lstid=None):
+	if request.method=='GET':
+		try:
+			if prtid is None and lstid is None:
+				pvnInfo=Area.objects.filter(ParentId=None)
+				serializer=AreaSerializer(pvnInfo,many=True)
+				return Response(serializer.data)
+			elif prtid is not None and lstid is None :
+				subInfo=Area.objects.filter(ParentId=prtid)
+				serializer=AreaSerializer(subInfo,many=True)
+				return Response(serializer.data)
+			elif prtid is not None and lstid is not None:
+				subInfo=Area.objects.filter(ParentId=lstid)
+				serializer=AreaSerializer(subInfo,many=True)
+				return Response(serializer.data)
+		except:
+			pass
+
+@api_view(['GET'])
+def subshow(request,prtid):
+	if request.method=='GET':
+		subInfo=Area.objects.filter(ParentId=prtid)
+		serializer=AreaSerializer(subInfo,many=True)
+		return Response(serializer.data)
 
 ######################################
 

@@ -21,6 +21,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/org/', org),
     url(r'^api/area/', area),
+    url(r'^api/pvnshow/$', pvnshow),
+    url(r'^api/pvnshow/(?P<prtid>\d+)/$', pvnshow),
+    url(r'^api/pvnshow/(?P<prtid>\d+)/(?P<lstid>\d+)$', pvnshow),
+
     url(r'^api/purcate/', purchasecategory),
     url(r'^api/orderdetail/', orderdetail),
     url(r'^api/bonuspoints/', bonuspoints),
