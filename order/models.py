@@ -8,7 +8,7 @@ import django.utils.timezone as timezone
 地区表
 '''
 class Area(models.Model):
-	Code=models.IntegerField(max_length=100)
+	Code=models.CharField(max_length=100)
 	Name=models.CharField(null=True,blank=True,max_length=100)
 	ParentId=models.ForeignKey('self',null=True,blank=True,default=None,related_name='area') 	#自关联
 

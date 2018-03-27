@@ -25,7 +25,7 @@ SECRET_KEY = '!$k7=#va_g7xmf5=o-c&wrn-8wp*s@qg@*+6nm(be7+h(xv*&9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','192.168.10.187:45557']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'order',
     'rest_framework',
+    'corsheaders',
 
 ]
 
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'publish.urls'
@@ -78,14 +80,19 @@ WSGI_APPLICATION = 'publish.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         # 'ENGINE': 'django.db.backends.mysql',
         # 'NAME': 'jltxdb',
-        # 'PORT': 3306,
         # 'HOST': '127.0.0.1',
+        # 'PORT': 3306,
         # 'USER': 'root',
         # 'PASSWORD': 'root',
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	     		'HOST':'192.168.10.152',
+         'NAME': 'Bidding_B',
+         'USER':'openpg',
+         'PASSWORD':'openpgpwd',
     }
 }
 

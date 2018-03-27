@@ -86,6 +86,11 @@ DATABASES = {
         # 'HOST': '127.0.0.1',
         # 'USER': 'root',
         # 'PASSWORD': 'root',
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	    # 'HOST':'192.168.10.152',
+     #    'NAME': 'Bidding_B',
+     #    'USER':'openpg',
+     #    'PASSWORD':'openpgpwd',
     }
 }
 
@@ -122,9 +127,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-CORS_ORIGIN_WHITELIST = (
-      '192.168.10.187:45557',
-)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

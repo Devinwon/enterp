@@ -1,12 +1,13 @@
 - model: order.Area
   pk: 1
   fields:
-    name: ±±¾©
-    code: '010'
-    parentId:
+    Name: åŒ—äº¬å¸‚
+    Code: '010'
+    ParentId:
+
 - model: order.Area
-  pk: 11
+  pk: 1
   fields:
-    name: ±±¾©³ÇÇø
-    code: '010010'
-    parentId: 1
+    Name: åŒ—äº¬å¸‚åŒº
+    Code: '01001'
+    ParentId: 2

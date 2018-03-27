@@ -68,11 +68,30 @@ class PurchaseCategorySerializer(serializers.ModelSerializer):
 		fields='__all__'
 
 @api_view(['GET'])
-def purchasecategory(request):
+def purcateall(request):
 	if request.method=='GET':
-		purcateInfo=PurchaseCategory.objects.order_by('-id')
-		serializer=PurchaseCategorySerializer(purcateInfo,many=True)
+		purcateallInfo=PurchaseCategory.objects.all()
+		serializer=PurchaseCategorySerializer(purcateallInfo,many=True)
 		return Response(serializer.data)
+
+@api_view(['GET'])
+def purchasecategory(request,prtid=None,lstid=None):
+	if request.method=='GET':
+		try:
+			if prtid is None and lstid is None:
+				purcateInfo=PurchaseCategory.objects.filter(ParentId=None)
+				serializer=PurchaseCategorySerializer(purcateInfo,many=True)
+				return Response(serializer.data)
+			elif prtid is not None and lstid is None :
+				subInfo=PurchaseCategory.objects.filter(ParentId=prtid)
+				serializer=PurchaseCategorySerializer(subInfo,many=True)
+				return Response(serializer.data)
+			elif prtid is not None and lstid is not None:
+				subInfo=PurchaseCategory.objects.filter(ParentId=lstid)
+				serializer=PurchaseCategorySerializer(subInfo,many=True)
+				return Response(serializer.data)
+		except:
+			pass
 
 
 ######################################
