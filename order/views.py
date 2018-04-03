@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from random import choice
+from django.contrib import auth
 from rest_framework import authentication, permissions, viewsets, filters
 from .forms import BiddingInfoFilter
-from .models import BiddingInfo,Area,PurchaseCategory
+from .models import BiddingInfo,Area,PurchaseCategory,UserProfile
 from .api import BiddingInfoSerializer,AreaSerializer,PurchaseCategorySerializer
 from .serializers import UsersubscribeSerializer
 from .scribe_model.subscribe import UserSubscribe
@@ -81,6 +83,12 @@ def verify_user(request):
         # 返回异常则表示用户名不存在 返回res:0
         return JsonResponse({'res': 0})
 
+def getcode():
+    rel=''
+    lst=[x for x  in range(10)]
+    for cnt in range(5):
+        rel+=choice(lst)
+    return rel
 
 # # 发送验证码接口
 # def send_code(request):
@@ -111,7 +119,7 @@ def send_code(request):
     phone_numbers=[]
     phone = request.POST.get('phone')
     phone_numbers.append(phone)
-    smscode = getcode()         # 随机生成5位验证码
+    smscode = getcode()                     # 随机生成5位验证码
     params.insert(0,smscode)
     params.append(expired_time)
     request.session['smscode'] = smscode+phone  # 把生成的验证码保存在session中
@@ -128,43 +136,70 @@ def send_code(request):
 # 注册
 # @csrf_exempt
 def register_check(request):
+    context={}
+    err_code='验证码有误'
+    err_password='两次密码设置不一致'
+    err_exist="用户名已存在"
     username = request.POST.get('username')
     phone = request.POST.get('phone')
     sms_code = request.POST.get('YZM')
     password = request.POST.get('password')
     password_confirm = request.POST.get('password_confirm')
-    ser_code = request.session.get('smscode')       #获取保存的生存验证码
-    if sms_code+phone == ser_code and password==password_confirm:
-        User.objects.create_user(username=username, password=password)
-        request.user.profile.realname=realname
+    ser_code = request.session.get('smscode')       #获取保存的随机验证码
+    if sms_code+phone != ser_code:
+        context["err_code"]=err_code
+        return render(request,'reg.html',context)
     else:
-
-        return JsonResponse({'res': 1})
+        if password_confirm==password:
+            try:
+                usr = User.objects.filter(username__exact=username)
+                if usr :
+                    context['err_exist']=err_exist
+                    return render(request,'reg.html',context)
+                else:
+                    User.objects.create_user(username=username, password=password)
+                    usr=User.objects.get(username=username)
+                    profile=UserProfile()  
+                    profile.user_id=usr.id
+                    profile.phone=phone
+                    profile.save()
+                    context['ok']=1
+                    return render(request,'login.html',context)
+            except:
+                pass
+        else:
+            errs.append(err_password)
+            context["err_password"]=err_password
+            return render(request,'reg.html',context)
+        
 
 
 # 登录校验
 # @csrf_exempt
 def login_check(request):
-    """进行登录校验"""
-    # 1.接收用户名和密码
-    username = request.POST.get('phone')
+    username = request.POST.get('username')
     password = request.POST.get('password')
-    # 2.根据用户名和密码查找账户信息
-    passport = User.objects.get_one_passport(username=username, password=password)
-    # 3.如果查到，返回json {'res':1} 如果查不到，返回 {'res':0}
-    if passport:
-        # 用户名密码正确
-        jres = {'res': 1}
-        # 记录用户登录状态
+    user= auth.authenticate(username=username,password=password)
+    context={}
+    if user:
+        # jres = {'res': 1}
         request.session['islogin'] = True
         request.session['username'] = username
-        # 记录登录账户id
-        request.session['Passport_id'] = passport.id
-        return HttpResponse(json.dumps(jres), content_type='application/json')
+        request.session['Passport_id'] = user.id
+        # return HttpResponse(json.dumps(jres), content_type='application/json')
+        return render(request,'index.html',context)
     else:
-        # 用户名或密码错误
-        return JsonResponse({'res': 0})
+        context['err_login']="用户密码不匹配"
+        return render(request,'login.html',context)
 
+def logout(request):
+        context={}
+        try:
+            response=redirect(to='/login')
+            response.delete_cookie('username')
+            return response
+        except:
+            return render(request,'index.html',context)
 
 #修改密码
 def update_pwd(request):
