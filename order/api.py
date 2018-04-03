@@ -108,6 +108,20 @@ def orgcategory(request):
 		serializer=OrgCategorySerializer(orgcateInfo,many=True)
 		return Response(serializer.data)
 
+@api_view(['GET'])
+def orgcategory_all(request):
+	if request.method=='GET':
+		orgcateParentInfo=OrgCategory.objects.filter(ParentId= None).order_by('Name')
+		destList = []
+		for parentOrg in orgcateParentInfo:
+			destList.append(parentOrg)
+			childOrgInfoSet = OrgCategory.objects.filter(ParentId=parentOrg.id).order_by('Name')
+			for childOrgInfo in childOrgInfoSet:
+				destList.append(childOrgInfo)
+			#print (destList)
+		serializer=OrgCategorySerializer(destList,many=True)
+		return Response(serializer.data)
+
 ######################################
 
 class OrderDetailSerializer(serializers.ModelSerializer):
@@ -188,7 +202,7 @@ def userprofile(request):
 class FootPrintSerializer(serializers.ModelSerializer):
 	class Meta:
 		model=FootPrint
-		# fields='__all__'
+		fields='__all__'
 
 @api_view(['GET'])		
 def footprint(request):

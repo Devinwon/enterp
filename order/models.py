@@ -62,6 +62,7 @@ class PurchaseCategory(models.Model):
 '''
 class OrgCategory(models.Model):
 	Name=models.CharField(max_length=100)
+	ParentId = models.ForeignKey('self', related_name='parentid', null=True, blank=True)
 	AliasName=models.CharField(max_length=100)
 
 	class Meta:
@@ -154,7 +155,7 @@ class BiddingInfo(models.Model):
 	LabelTime=models.DateTimeField(auto_now=True,null=True)	#标注时间
 	PurchaseDept=models.CharField(max_length=200,null=True)	#采购单位
 	OrgCategory=models.ForeignKey(to=OrgCategory,related_name='orgcategory',null=True)	#采购单位性质
-	PurchseArea=models.ForeignKey(to=Area,related_name='purchsearea',null=True)	#采购地区
+	PurchseArea=models.ForeignKey(to=Area,related_name='purchsearea_id',null=True)	#采购地区
 	PurchaseCategory=models.ForeignKey(to=PurchaseCategory,related_name='purchasecategory',null=True)	#采购目录
 	GetViews=models.IntegerField(null=True)									#查看次数
 	PublishTime=models.DateTimeField(auto_now=True,null=True)	#发布时间
