@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from order.api import *
+from order.views import send_code
 from order.urls import router
 
 urlpatterns = [
@@ -37,6 +38,7 @@ urlpatterns = [
     url(r'^api/footprint/', footprint),
     url(r'^api/orgcate/', orgcategory),
     url(r'^api/orgcateall/', orgcategory_all),
+    url(r'^sms/', send_code),
     url(r'^api/', include(router.urls)),
     #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

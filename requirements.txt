@@ -43,3 +43,5 @@ Whoosh==2.7.4
 category==0.9.10
 
 simplejson == 3.13.2
+
+qcloudsms-py-0.1.1
