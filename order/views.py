@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from rest_framework import authentication, permissions, viewsets, filters
 from .forms import BiddingInfoFilter
 from .models import BiddingInfo,Area,PurchaseCategory
@@ -70,9 +71,9 @@ import json
 
 # 检验用户名是否存在
 def verify_user(request):
-    email = request.POST.get('email')
+    username = request.POST.get('username')
     try:
-        obj = User.objects.get(email=email)
+        obj = User.objects.get(username=username)
         if obj and obj.is_atcive:
             # 用户名已经存在 返回res:1
             return JsonResponse({'res': 1})
@@ -127,28 +128,18 @@ def send_code(request):
 # 注册
 # @csrf_exempt
 def register_check(request):
-    # 获取验证码参数
-    sms_code = request.POST.get('YZM')
-    #sms_code = '0'
-    # 获取用户名和密码
+    username = request.POST.get('username')
     phone = request.POST.get('phone')
+    sms_code = request.POST.get('YZM')
     password = request.POST.get('password')
-    # 获取保存的生存验证 码
-    ser_code = request.session.get('smscode')
-    print(ser_code)
-    # 判断输入的验证码数否一致 成功返回res1 失败res0
-    try:
-        obj = User.objects.get(username=phone)
-        # 用户名已经存在 返回res:0
-        return JsonResponse({'res': 0})
-    except:
-        pass
-    if sms_code+phone == ser_code:
-        # 成功的话把数据存入数据库中
-        User.objects.add_one_passport(username=phone, password=password, phone=phone)
-        return JsonResponse({'res': 1})
+    password_confirm = request.POST.get('password_confirm')
+    ser_code = request.session.get('smscode')       #获取保存的生存验证码
+    if sms_code+phone == ser_code and password==password_confirm:
+        User.objects.create_user(username=username, password=password)
+        request.user.profile.realname=realname
     else:
-        return JsonResponse({'res': 0})
+
+        return JsonResponse({'res': 1})
 
 
 # 登录校验
@@ -199,17 +190,13 @@ def getCode(request):
 
 #
 def Information_setting(request):
-    username = request.POST.get('phone')
-    #username='1'
+    phone = request.POST.get('phone')
     company_name = request.POST.get('company_name')
-    #company_name='opo'
     credit = request.POST.get('credit')
-    #credit='lol'
     email = request.POST.get('email')
-    #email='122wwzz.com'
-    passport = User.objects.get_passpory(username=username)
-    if passport:
-        User.objects.filter(id=passport.id).update(company_name=company_name,credit=credit,email=email)
+    username = User.objects.get(username=username)
+    if username :
+        User.objects.filter(username=username).update(company_name=company_name,credit=credit,email=email)
         return JsonResponse({'res': 1})
     else:
         return JsonResponse({'res': 0})

@@ -57,9 +57,9 @@ class BiddingInfoAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile) 
 class UserProfileAdmin(admin.ModelAdmin):
-	list_display=('Mobile','WeixinId','Belongto','Belongto')
+	list_display=('Phone','WeixinId','Belongto','PromoteCode')
 	list_per_page=20
-	ordering=('Mobile',)
+	ordering=('Phone',)
 
 
 @admin.register(FootPrint)
