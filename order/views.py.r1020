@@ -87,7 +87,7 @@ def getcode():
     rel=''
     lst=[x for x  in range(10)]
     for cnt in range(5):
-        rel+=str(choice(lst))
+        rel+=choice(lst)
     return rel
 
 # # 发送验证码接口
@@ -117,8 +117,7 @@ def send_code(request):
     expired_time=5  #5 minutes
     params=[]
     phone_numbers=[]
-    # phone = request.POST.get('phone')
-    phone = '13886852429'
+    phone = request.POST.get('phone')
     phone_numbers.append(phone)
     smscode = getcode()                     # 随机生成5位验证码
     params.insert(0,smscode)
@@ -169,6 +168,7 @@ def register_check(request):
             except:
                 pass
         else:
+            errs.append(err_password)
             context["err_password"]=err_password
             return render(request,'reg.html',context)
         

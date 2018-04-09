@@ -11,7 +11,7 @@ class UsersubscribeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserSubscribe
-        fields = ('id', 'UserId', 'ScribeName', 'OrgCategory', 'PurchseArea',  'PurchaseCategory', 'SeqNo', 'KeyWord', )
+        fields = ('id', 'User', 'ScribeName', 'OrgCategory', 'PurchseArea',  'PurchaseCategory', 'SeqNo', 'KeyWord', )
 
     def validate_end(self, value):
         new = self.instance is None

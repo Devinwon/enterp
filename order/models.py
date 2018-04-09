@@ -153,9 +153,9 @@ class BiddingInfo(models.Model):
 	Title=models.CharField(max_length=200,null=True)
 	LabelTime=models.DateTimeField(auto_now=True,null=True)	#标注时间
 	PurchaseDept=models.CharField(max_length=200,null=True)	#采购单位
-	OrgCategory=models.ForeignKey(to=OrgCategory,related_name='orgcategory',null=True)	#采购单位性质
-	PurchseArea=models.ForeignKey(to=Area,related_name='purchsearea_id',null=True)	#采购地区
-	PurchaseCategory=models.ForeignKey(to=PurchaseCategory,related_name='purchasecategory',null=True)	#采购目录
+	OrgCategory=models.ForeignKey(to=OrgCategory,related_name='orgcategory_bidding',null=True)	#采购单位性质
+	PurchseArea=models.ForeignKey(to=Area,related_name='purchsearea_bidding',null=True)	#采购地区
+	PurchaseCategory=models.ForeignKey(to=PurchaseCategory,related_name='purchasecategory_bidding',null=True)	#采购目录
 	GetViews=models.IntegerField(null=True)									#查看次数
 	PublishTime=models.DateTimeField(auto_now=True,null=True)	#发布时间
 	DeadLine=models.DateTimeField(auto_now=False,null=True)		#截止时间
@@ -178,7 +178,7 @@ class BiddingInfo(models.Model):
 '''
 class UserProfile(models.Model):
 	Belongto=models.OneToOneField(to=User,related_name='profile')
-	Phone=models.IntegerField()
+	Phone=models.CharField(max_length=20)
 	PromoteCode=models.CharField(max_length=100)
 	WeixinId=models.IntegerField()
 

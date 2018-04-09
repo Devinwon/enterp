@@ -6,21 +6,21 @@ from ..models import *
 
 ###############################################
 '''
-订单明细表
+用户订阅
 '''
 class UserSubscribe(models.Model):
-	UserId=models.OneToOneField(to=User, related_name='orderuserid')
-	ScribeName=models.BooleanField()
-	OrgCategory = models.ForeignKey(to=OrgCategory, related_name='orgcategory', null=True)  # 采购单位性质
-	SeqNo = models.CharField(max_length=100)
-	PurchseArea = models.ForeignKey(to=Area, related_name='purchsearea_id', null=True)  # 采购地区
+	User=models.ForeignKey(to=User, related_name='userid_scribe',null=True )
+	ScribeName=models.CharField(max_length=100)
+	OrgCategory = models.ForeignKey(to=OrgCategory, related_name='orgcategory_scribe', null=True)  # 采购单位性质
+	SeqNo = models.CharField(max_length=100, null=True)
+	PurchseArea = models.ForeignKey(to=Area, related_name='purchsearea_scribe', null=True)  # 采购地区
 	UpdateTime=models.TimeField(auto_now=True)
-	PurchaseCategory = models.ForeignKey(to=PurchaseCategory, related_name='purchasecategory', null=True)  # 采购目录
-	KeyWord=models.CharField(max_length=500)
+	PurchaseCategory = models.ForeignKey(to=PurchaseCategory, related_name='purchasecategory_scribe', null=True)  # 采购目录
+	KeyWord=models.CharField(max_length=500, null=True)
 
 	class Meta:
 		verbose_name='UserSubscribe'
-		verbose_name_plural=verbose_name
+		verbose_name_plural = verbose_name
 
 	def __str__(self):
 		return self.ScribeName
@@ -28,11 +28,11 @@ class UserSubscribe(models.Model):
 
 ###############################################
 '''
-订单明细表
+招标信息明细表
 '''
 class UserBidding(models.Model):
 
-	UserId=models.OneToOneField(to=User, related_name='orderuserid')
+	UserId=models.OneToOneField(to=User, related_name='biddinguserid')
 	UserBiddingId = models.ForeignKey(to=BiddingInfo ,related_name='biddinginfo' ,null=True ) # 匹配后的招标信息
 	isRead = models.BooleanField() #
 	isMailSend = models.BooleanField()  #

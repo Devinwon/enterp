@@ -87,7 +87,13 @@ def getcode():
     rel=''
     lst=[x for x  in range(10)]
     for cnt in range(5):
+<<<<<<< .mine
         rel+=str(choice(lst))
+||||||| .r1020
+        rel+=choice(lst)
+=======
+        rel+= str(choice(lst))
+>>>>>>> .r1029
     return rel
 
 # # 发送验证码接口
@@ -114,16 +120,17 @@ def send_code(request):
     appid = 1400076660
     appkey = "79219a01f7f44ff69b2e9d3420e91af1"
     template_id =98106
-    expired_time=5  #5 minutes
+    expired_time=30  #30 minutes
     params=[]
     phone_numbers=[]
     # phone = request.POST.get('phone')
     phone = '13886852429'
     phone_numbers.append(phone)
-    smscode = getcode()                     # 随机生成5位验证码
+    smscode = str(getcode() )                # 随机生成5位验证码
     params.insert(0,smscode)
     params.append(expired_time)
     request.session['smscode'] = smscode+phone  # 把生成的验证码保存在session中
+    print (request.session)
     # print(request.session.get('smscode'))
     # session_key = request.session.session_key
     ssender = SmsSingleSender(appid, appkey)
@@ -147,9 +154,11 @@ def register_check(request):
     password = request.POST.get('password')
     password_confirm = request.POST.get('password_confirm')
     ser_code = request.session.get('smscode')       #获取保存的随机验证码
+    print(request.session)
     if sms_code+phone != ser_code:
         context["err_code"]=err_code
-        return render(request,'reg.html',context)
+        #return render(request,'reg.html',context)
+        return JsonResponse({'res': 1})
     else:
         if password_confirm==password:
             try:
@@ -224,7 +233,7 @@ def getCode(request):
         return JsonResponse({'res': 0})
 
 #
-def Information_setting(request):
+def org_setting(request):
     phone = request.POST.get('phone')
     company_name = request.POST.get('company_name')
     credit = request.POST.get('credit')
