@@ -111,8 +111,8 @@ def getcode():
 # 发送短信验证码接口
 def send_code(request):
     """Conf"""
-    #appid = "YOU ID"
-    #appkey = "YOU KEY"
+    #appid = "YOUR ID"
+    #appkey = "YOUR KEY"
     template_id =98106
     expired_time=5  #5 minutes
     params=[]
